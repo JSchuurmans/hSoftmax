@@ -12,7 +12,7 @@ from src.lstm import LSTM
 from src.lstm import h_LSTM
 
 # supported datasets
-DATASETS = ['trec','20ng','r8','r52','ya']
+DATASETS = ['trec','20ng','r8','r52','ya','ya_16']
 
 parser = argparse.ArgumentParser()
 
@@ -84,6 +84,13 @@ elif data == 'ya':
     n_cat = 16
     n_max = 30
     # n_max = 29
+elif data == 'ya_16':
+    dataset_path = os.path.join('data','ya','Yahoo','Yahoo.ESA')
+    train_data, test_data, mappings = loader.load_ya(dataset_path,
+                    word_path, wdim, hier=hier, data_name=data)
+    n_cat = 16
+    n_max = 30
+    # n_max = 29
     
 word_to_id = mappings['word_to_id']
 tag_to_id = mappings['tag_to_id']
@@ -109,9 +116,10 @@ optimizer = torch.optim.Adam(model.parameters(), lr = lr)
 trainer = Trainer(model, optimizer, log_dir, model_name,
                     tag_to_id, usedataset = data)
 
-losses, _, all_P, all_R, all_F = trainer.train_model(n_epochs, train_data,
+losses, all_A, all_P, all_R, all_F = trainer.train_model(n_epochs, train_data,
                                     test_data, lr, batch_size=bs,
                                     checkpoint_path=log_dir)
+
 
 F1_train = all_F[-1][0]
 F1_test = all_F[-1][1]

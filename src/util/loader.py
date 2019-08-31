@@ -257,6 +257,8 @@ class Loader(object):
         train_data = []
         test_data = []
         for tag in tags:
+            if data_name == 'ya_16':
+                tag = tag.split('.')[0]
             tag_data = []
             skip_next = False
             file_path = os.path.join(datapath,tag)
@@ -275,25 +277,6 @@ class Loader(object):
             train_data.extend(train_sample)
             test_data.extend(test_sample)
 
-        # train_data = random.sample(data, k=int(len(data)*train_frac))
-
-        # train_data = []
-        # with open (trainpath) as f:
-        #     for line in f:
-        #         content = line.strip().split('\t')
-        #         sentence = content[1]
-        #         # cat = content[0].split('.')[1]
-        #         tag = content[0]
-        #         train_data.append((sentence, tag))        
-        
-        # test_data = []
-        # with open (testpath) as f:
-        #     for line in f:
-        #         content = line.strip().split('\t')
-        #         sentence = content[1]
-        #         # cat = content[0].split('.')[1]
-        #         tag = content[0]
-        #         test_data.append((sentence, tag))  
                 
         dico_words_train = self.word_mapping(train_data)[0]
         
