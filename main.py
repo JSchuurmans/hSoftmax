@@ -2,6 +2,7 @@
 import os
 import argparse
 from time import time
+import pickle
 
 # import matplotlib.pyplot as plt 
 import torch
@@ -18,7 +19,8 @@ DATASETS = ['trec','20ng','r8','r52','ya','ya_16']
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--data', default='r8', type=str, help=f'Dataset: {str(DATASETS)}')
-parser.add_argument('--hdim', default=100, type=int, help=f'Hidden dimension')
+parser.add_argument('--hdim', default=100, type=int, help='Hidden dimension')
+parser.add_argument('--epoch', default=10, type=int, help='Number of epochs')
 parser.add_argument('-hi', action='store_true')
 parser.add_argument('-bi', action='store_true')
 
@@ -53,11 +55,10 @@ param['bidir'] = bidir
 # training parameters
 lr = 0.001 # learning rate
 bs = 10 # batch size
-n_epochs = 10
-n_epochs = 40
+n_epochs = args.epoch
 param['lr'] = lr
 param['bs'] = bs
-param['n_epochs'] = n_epochs
+param['epochs'] = n_epochs
 
 log_dir = os.path.join('log',data,model_name,str(time()))
 if not os.path.exists(log_dir):
@@ -180,9 +181,11 @@ test_metrics = pd.DataFrame({
 test_metrics.to_csv(os.path.join(log_dir,'test_metrics.csv'))
 test_metrics.to_pickle(os.path.join(log_dir,'test_metrics.pkl'))
 
-param_df = pd.DataFrame(param)
-param_df.to_csv(os.path.join(log_dir, 'param.csv'))
-param_df.to_pickle(os.path.join(log_dir,'param.pkl'))
+with open(os.path.join(log_dir, 'param.pkl'), 'wb') as f:
+    pickle.dump(param, f, protocol=pickle.HIGHEST_PROTOCOL)
 
+# with open(os.path.join(log_dir, 'param.pkl'), 'rb') as f:
+#     param = pickle.load(f)
+    
 
-# TODO plot loss curve
+# TODO loss curve
