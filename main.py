@@ -12,11 +12,11 @@ from src.lstm import LSTM
 from src.lstm import h_LSTM
 
 # supported datasets
-DATASETS = ['trec','ya','r','20news']
+DATASETS = ['trec','20ng','r8','r52','ya']
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--data', default='trec', type=str, help=f'Dataset: {str(DATASETS)}')
+parser.add_argument('--data', default='r8', type=str, help=f'Dataset: {str(DATASETS)}')
 parser.add_argument('-hi', action='store_true')
 parser.add_argument('-bi', action='store_true')
 
@@ -42,10 +42,10 @@ bidir = args.bi # bidirectional
 
 # training parameters
 lr = 0.001 # learning rate
-bs = 32 # batch size
-n_epochs = 5
+bs = 10 # batch size
+n_epochs = 25
 
-log_dir = os.path.join('log','args.data',model_name,str(time()))
+log_dir = os.path.join('log',data,model_name,str(time()))
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
@@ -54,11 +54,37 @@ loader = Loader()
 if data == 'trec':
     dataset_path = os.path.join('data','trec')
     train_data, test_data, mappings = loader.load_trec(dataset_path,
-                    word_path, wdim, hier=hier)
-    n_cat = 5
+                    word_path, wdim, hier=hier, data_name=data)
+    n_cat = 6
     n_max = 22
-
-
+elif data == '20ng':
+    dataset_path = os.path.join('data','ng20')
+    train_data, test_data, mappings = loader.load_20ng(dataset_path,
+                    word_path, wdim, hier=hier, data_name=data)
+    n_cat = 6
+    n_max = 5
+elif data == 'r8':
+    dataset_path = os.path.join('data','r8')
+    train_data, test_data, mappings = loader.load_r8(dataset_path,
+                    word_path, wdim, hier=hier, data_name=data)
+    n_cat = 4
+    n_max = 2
+elif data == 'r52':
+    dataset_path = os.path.join('data','r52')
+    train_data, test_data, mappings = loader.load_r8(dataset_path,
+                    word_path, wdim, hier=hier, data_name=data)
+    n_cat = 4
+    n_max = 31
+    # n_cat = 7
+    # n_max = 13
+elif data == 'ya':
+    dataset_path = os.path.join('data','ya','Yahoo','Yahoo.ESA_2')
+    train_data, test_data, mappings = loader.load_ya(dataset_path,
+                    word_path, wdim, hier=hier, data_name=data)
+    n_cat = 16
+    n_max = 30
+    # n_max = 29
+    
 word_to_id = mappings['word_to_id']
 tag_to_id = mappings['tag_to_id']
 word_embeds = mappings['word_embeds']
@@ -66,7 +92,7 @@ word_embeds = mappings['word_embeds']
 word_vocab_size = len(word_to_id)
 
 if hier:
-    output_size = 22*5
+    output_size = n_cat*n_max
     model = h_LSTM(word_vocab_size, wdim, hdim, output_size,
                 pretrained = word_embeds, bidirectional = bidir,
                 n_cat=n_cat, n_max=n_max)
@@ -96,3 +122,6 @@ P_test = all_P[-1][1]
 R_train = all_R[-1][0]
 R_test = all_R[-1][1]
 
+# TODO save model parameters
+# TODO save metrics
+# TODO plot loss curve

@@ -90,8 +90,6 @@ class HierarchicalSoftmax(nn.Module):
 
             # target_probs = layer_top_probs[torch.arange(batch_size).long(), label_position_top] * layer_bottom_probs[torch.arange(batch_size).long(), label_position_bottom]
             # cuda
-            print(layer_top_probs)
-            print(layer_bottom_probs)
             target_probs = layer_top_probs[torch.arange(batch_size).type(torch.cuda.LongTensor), label_position_top] * layer_bottom_probs[torch.arange(batch_size).type(torch.cuda.LongTensor), label_position_bottom]
             # print(target_probs)
             return target_probs

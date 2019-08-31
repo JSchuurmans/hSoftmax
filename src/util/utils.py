@@ -11,6 +11,14 @@ from collections import Counter
 import torch
 from data.trec.tag_mapping_trec import tag_to_id as tag_to_id_trec
 from data.trec.tag_mapping_trec import id_to_tag as id_to_tag_trec
+from data.ng20.tag_mapping_20ng import tag_to_id as tag_to_id_20ng
+from data.ng20.tag_mapping_20ng import id_to_tag as id_to_tag_20ng
+from data.r8.tag_mapping_r8 import tag_to_id as tag_to_id_r8
+from data.r8.tag_mapping_r8 import id_to_tag as id_to_tag_r8
+from data.r52.tag_mapping_r52_2 import tag_to_id as tag_to_id_r52
+from data.r52.tag_mapping_r52_2 import id_to_tag as id_to_tag_r52
+from data.ya.tag_mapping_ya import tag_to_id as tag_to_id_ya
+from data.ya.tag_mapping_ya import id_to_tag as id_to_tag_ya
 
 def create_dico(item_list):
     """
@@ -81,6 +89,14 @@ def tag_mapping(dataset, name='trec', hier=False):
     else:
         if name=='trec':
             tag_to_id, id_to_tag = tag_to_id_trec, id_to_tag_trec
+        elif name =='20ng':
+            tag_to_id, id_to_tag = tag_to_id_20ng, id_to_tag_20ng
+        elif name == 'r8':
+            tag_to_id, id_to_tag = tag_to_id_r8, id_to_tag_r8
+        elif name == 'r52':
+            tag_to_id, id_to_tag = tag_to_id_r52, id_to_tag_r52
+        elif name == 'ya':
+            tag_to_id, id_to_tag = tag_to_id_ya, id_to_tag_ya
         else:
             raise NotImplementedError
     
@@ -100,6 +116,8 @@ def prepare_dataset(dataset, word_to_id, tag_to_id):
         words = [word_to_id[f(w) if f(w) in word_to_id else '<UNK>']
                  for w in str_words]
         tag = tag_to_id[s[1]] # if s[1] gives KeyValue error, check generation of tag_to_id
+        if len(words)==0:
+            continue
         data.append({
             'str_words': str_words,
             'words': words,
@@ -108,7 +126,7 @@ def prepare_dataset(dataset, word_to_id, tag_to_id):
     return data
 
 def pad_seq(seq, max_length, PAD_token=0):
-    
+    # print(max_length) 20ng 635
     seq += [PAD_token for i in range(max_length - len(seq))]
     return seq
 
