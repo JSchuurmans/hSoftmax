@@ -18,6 +18,7 @@ DATASETS = ['trec','20ng','r8','r52','ya','ya_16']
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--data', default='r8', type=str, help=f'Dataset: {str(DATASETS)}')
+parser.add_argument('--hdim', default=100, type=int, help=f'Hidden dimension')
 parser.add_argument('-hi', action='store_true')
 parser.add_argument('-bi', action='store_true')
 
@@ -41,7 +42,7 @@ hier = args.hi # hierarchical softmax
 dropout = .5
 wdim = 300 # word embedding dimension {50, 100, 200, 300}
 word_path = os.path.join('wordvectors',f'glove.6B.{wdim}d.txt')
-hdim = 150  # hidden dimension
+hdim = args.hdim  # hidden dimension
 bidir = args.bi # bidirectional
 param['hier'] = hier
 param['dropout'] = dropout
@@ -52,7 +53,7 @@ param['bidir'] = bidir
 # training parameters
 lr = 0.001 # learning rate
 bs = 10 # batch size
-n_epochs = 10
+n_epochs = 40
 param['lr'] = lr
 param['bs'] = bs
 param['n_epochs'] = n_epochs
@@ -161,7 +162,7 @@ R_train_all = [X[0] for X in all_R]
 R_test_all = [X[1] for X in all_R]
 
 train_metrics = pd.DataFrame({
-    'losses': losses,
+    # 'losses': losses,
     'A': A_train_all,
     'F': F_train_all,
     'P': P_train_all,
@@ -171,15 +172,15 @@ train_metrics.to_csv(os.path.join(log_dir,'train_metrics.csv'))
 train_metrics.to_pickle(os.path.join(log_dir,'train_metrics.pkl'))
 
 test_metrics = pd.DataFrame({
-    'A': A_train_all,
-    'F': F_train_all,
-    'P': P_train_all,
-    'R': R_train_all
+    'A': A_test_all,
+    'F': F_test_all,
+    'P': P_test_all,
+    'R': R_test_all
 })
 test_metrics.to_csv(os.path.join(log_dir,'test_metrics.csv'))
 test_metrics.to_pickle(os.path.join(log_dir,'test_metrics.pkl'))
 
-param_df = pd.DataFrame({param})
+param_df = pd.DataFrame(param)
 param_df.to_csv(os.path.join(log_dir, 'param.csv'))
 param_df.to_pickle(os.path.join(log_dir,'param.pkl'))
 
