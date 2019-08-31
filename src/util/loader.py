@@ -257,11 +257,13 @@ class Loader(object):
         train_data = []
         test_data = []
         for tag in tags:
+            file_path = os.path.join(datapath,tag)
+            
             if data_name == 'ya_16':
                 tag = tag.split('.')[0]
             tag_data = []
             skip_next = False
-            file_path = os.path.join(datapath,tag)
+            
             with open(file_path) as f:
                 for line in f:
                     if line[0] =='<' or skip_next:
