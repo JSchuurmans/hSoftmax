@@ -6,6 +6,7 @@ from time import time
 # import matplotlib.pyplot as plt 
 import torch
 import numpy as np 
+import pandas as pd
 
 from src.util import Trainer, Loader
 from src.lstm import LSTM
@@ -17,19 +18,23 @@ DATASETS = ['trec','20ng','r8','r52','ya','ya_16']
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--data', default='r8', type=str, help=f'Dataset: {str(DATASETS)}')
+parser.add_argument('--hdim', default=100, type=int, help=f'Hidden dimension')
 parser.add_argument('-hi', action='store_true')
 parser.add_argument('-bi', action='store_true')
 
 args = parser.parse_args()
 
+param = dict()
+
 data = args.data.lower()
 if data not in DATASETS:
     raise NotImplementedError
-
+param['data'] = data
 print(f'Dataset: {args.data}')
 
 model_name = 'hLSTM' if args.hi else 'LSTM'
 print(f'Model: {model_name}')
+param['model'] = model_name
 
 # TODO work this out per dataset, per model
 # model parameters
@@ -37,13 +42,22 @@ hier = args.hi # hierarchical softmax
 dropout = .5
 wdim = 300 # word embedding dimension {50, 100, 200, 300}
 word_path = os.path.join('wordvectors',f'glove.6B.{wdim}d.txt')
-hdim = 150  # hidden dimension
+hdim = args.hdim  # hidden dimension
 bidir = args.bi # bidirectional
+param['hier'] = hier
+param['dropout'] = dropout
+param['wdim'] = wdim
+param['hdim'] = hdim
+param['bidir'] = bidir
 
 # training parameters
 lr = 0.001 # learning rate
 bs = 10 # batch size
 n_epochs = 10
+n_epochs = 40
+param['lr'] = lr
+param['bs'] = bs
+param['n_epochs'] = n_epochs
 
 log_dir = os.path.join('log',data,model_name,str(time()))
 if not os.path.exists(log_dir):
@@ -90,6 +104,9 @@ elif data == 'ya_16':
                     word_path, wdim, hier=hier, data_name=data)
     n_cat = 8
     n_max = 3
+
+param['n_cat'] = n_cat
+param['n_max'] = n_max
     
 word_to_id = mappings['word_to_id']
 tag_to_id = mappings['tag_to_id']
@@ -120,8 +137,11 @@ losses, all_A, all_P, all_R, all_F = trainer.train_model(n_epochs, train_data,
                                     checkpoint_path=log_dir)
 
 
-F1_train = all_F[-1][0]
-F1_test = all_F[-1][1]
+A_train = all_A[-1][0]
+A_test = all_A[-1][1]
+
+F_train = all_F[-1][0]
+F_test = all_F[-1][1]
 
 P_train = all_P[-1][0]
 P_test = all_P[-1][1]
@@ -129,6 +149,40 @@ P_test = all_P[-1][1]
 R_train = all_R[-1][0]
 R_test = all_R[-1][1]
 
-# TODO save model parameters
-# TODO save metrics
+A_train_all = [X[0] for X in all_A]
+A_test_all = [X[1] for X in all_A]
+
+F_train_all = [X[0] for X in all_F]
+F_test_all = [X[1] for X in all_F]
+
+P_train_all = [X[0] for X in all_P]
+P_test_all = [X[1] for X in all_P]
+
+R_train_all = [X[0] for X in all_R]
+R_test_all = [X[1] for X in all_R]
+
+train_metrics = pd.DataFrame({
+    # 'losses': losses,
+    'A': A_train_all,
+    'F': F_train_all,
+    'P': P_train_all,
+    'R': R_train_all
+})
+train_metrics.to_csv(os.path.join(log_dir,'train_metrics.csv'))
+train_metrics.to_pickle(os.path.join(log_dir,'train_metrics.pkl'))
+
+test_metrics = pd.DataFrame({
+    'A': A_test_all,
+    'F': F_test_all,
+    'P': P_test_all,
+    'R': R_test_all
+})
+test_metrics.to_csv(os.path.join(log_dir,'test_metrics.csv'))
+test_metrics.to_pickle(os.path.join(log_dir,'test_metrics.pkl'))
+
+param_df = pd.DataFrame(param)
+param_df.to_csv(os.path.join(log_dir, 'param.csv'))
+param_df.to_pickle(os.path.join(log_dir,'param.pkl'))
+
+
 # TODO plot loss curve
