@@ -161,6 +161,7 @@ R_train_all = [X[0] for X in all_R]
 R_test_all = [X[1] for X in all_R]
 
 train_metrics = pd.DataFrame({
+    'losses': losses,
     'A': A_train_all,
     'F': F_train_all,
     'P': P_train_all,
@@ -182,6 +183,5 @@ param_df = pd.DataFrame({param})
 param_df.to_csv(os.path.join(log_dir, 'param.csv'))
 param_df.to_pickle(os.path.join(log_dir,'param.pkl'))
 
-# TODO save model parameters
-# TODO save metrics
+
 # TODO plot loss curve
