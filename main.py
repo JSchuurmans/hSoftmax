@@ -43,7 +43,7 @@ bidir = args.bi # bidirectional
 # training parameters
 lr = 0.001 # learning rate
 bs = 10 # batch size
-n_epochs = 25
+n_epochs = 10
 
 log_dir = os.path.join('log',data,model_name,str(time()))
 if not os.path.exists(log_dir):
@@ -82,15 +82,14 @@ elif data == 'ya':
     train_data, test_data, mappings = loader.load_ya(dataset_path,
                     word_path, wdim, hier=hier, data_name=data)
     n_cat = 16
-    n_max = 30
-    # n_max = 29
+#     n_max = 30
+    n_max = 29
 elif data == 'ya_16':
-    dataset_path = os.path.join('data','ya','Yahoo','Yahoo.ESA')
+    dataset_path = os.path.join('data','ya','Yahoo','Yahoo.ESA_16_2')
     train_data, test_data, mappings = loader.load_ya(dataset_path,
                     word_path, wdim, hier=hier, data_name=data)
-    n_cat = 16
-    n_max = 30
-    # n_max = 29
+    n_cat = 8
+    n_max = 3
     
 word_to_id = mappings['word_to_id']
 tag_to_id = mappings['tag_to_id']

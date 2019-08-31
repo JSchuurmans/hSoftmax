@@ -17,8 +17,10 @@ from data.r8.tag_mapping_r8 import tag_to_id as tag_to_id_r8
 from data.r8.tag_mapping_r8 import id_to_tag as id_to_tag_r8
 from data.r52.tag_mapping_r52_2 import tag_to_id as tag_to_id_r52
 from data.r52.tag_mapping_r52_2 import id_to_tag as id_to_tag_r52
-from data.ya.tag_mapping_ya import tag_to_id as tag_to_id_ya
-from data.ya.tag_mapping_ya import id_to_tag as id_to_tag_ya
+from data.ya.tag_mapping_ya_2 import tag_to_id as tag_to_id_ya
+from data.ya.tag_mapping_ya_2 import id_to_tag as id_to_tag_ya
+from data.ya.tag_mapping_ya_16_2 import tag_to_id as tag_to_id_ya_16
+from data.ya.tag_mapping_ya_16_2 import id_to_tag as id_to_tag_ya_16
 
 def create_dico(item_list):
     """
@@ -97,6 +99,8 @@ def tag_mapping(dataset, name='trec', hier=False):
             tag_to_id, id_to_tag = tag_to_id_r52, id_to_tag_r52
         elif name == 'ya':
             tag_to_id, id_to_tag = tag_to_id_ya, id_to_tag_ya
+        elif name == 'ya_16':
+            tag_to_id, id_to_tag = tag_to_id_ya_16, id_to_tag_ya_16
         else:
             raise NotImplementedError
     
