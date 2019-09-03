@@ -17,7 +17,7 @@ import pandas as pd
 
 import random
 
-random.seed(0)
+random.seed(359244)
 
 
 class Loader(object):
@@ -40,7 +40,7 @@ class Loader(object):
         ))
         return dico, word_to_id, id_to_word
     
-    def load_trec(self, datapath, pretrained, word_dim = 300, hier=False, data_name='20ng'):
+    def load_trec(self, datapath, pretrained, word_dim = 300, hier=False, data_name='trec'):
         
         trainpath = os.path.join(datapath, 'train_5500.label')
         testpath = os.path.join(datapath, 'TREC_10.label')
