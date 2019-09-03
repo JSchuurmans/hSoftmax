@@ -127,7 +127,10 @@ if kfold is not None:
     log_dir_valid = os.path.join(log_dir,'valid')
     
     smpl = random.sample(range(n),n)
-    n_k = int(n/kfold)
+    if kfold == 1:
+        n_k = int(n/4)
+    else:
+        n_k = int(n/kfold)
     start = 0
     end = n_k
     for k in range(kfold):
