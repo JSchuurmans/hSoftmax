@@ -75,6 +75,12 @@ class Loader(object):
         
         dico_tags, tag_to_id, id_to_tag = tag_mapping(train_data, hier=hier, name=data_name)
         
+        print(dico_tags)
+        print('*')
+        print(tag_to_id)
+        print('*')
+        print(id_to_tag)
+
         train_data_final = prepare_dataset(train_data, word_to_id, tag_to_id)
         test_data_final = prepare_dataset(test_data, word_to_id, tag_to_id)
         
