@@ -1,0 +1,32 @@
+# trec
+# bilstm - hdim 150 - epoch 25
+Accuracy: 0.848000, Best Accuracy: 0.848000
+Precision: 0.763930, Best Precision: 0.765044
+Recall: 0.694603, Best Recall: 0.742869
+F1: 0.708379, Best F1: 0.737065
+
+# h_bilstm - hdim 150 - epoch 25
+Accuracy: 0.840000, Best Accuracy: 0.852000
+Precision: 0.699456, Best Precision: 0.765807
+Recall: 0.686286, Best Recall: 0.749926
+F1: 0.667733, Best F1: 0.724500
+
+####################################3
+
+
+# bilstm - hdim 100 - epoch 10
+Accuracy: 0.834000, Best Accuracy: 0.842000
+Precision: 0.760004, Best Precision: 0.760004
+Recall: 0.703333, Best Recall: 0.721065
+F1: 0.705336, Best F1: 0.715825
+# epoch 6
+A: 0.838
+P: 0.7389
+R: 0.72106
+F: 0.71582
+
+# h_bilstm -hdim 100 - epoch 6
+Accuracy: 0.850000, Best Accuracy: 0.850000
+Precision: 0.799870, Best Precision: 0.799870
+Recall: 0.744506, Best Recall: 0.745692
+F1: 0.756969, Best F1: 0.756969

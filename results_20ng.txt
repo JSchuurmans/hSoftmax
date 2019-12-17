@@ -1,0 +1,29 @@
+lstm 
+Accuracy: 0.761993, Best Accuracy: 0.769701
+Precision: 0.758161, Best Precision: 0.765160
+Recall: 0.753833, Best Recall: 0.760620
+F1: 0.754279, Best F1: 0.761513
+
+h lstm 
+
+
+bilstm - hdim 150 epoch 25
+Accuracy: 0.807575, Best Accuracy: 0.828970
+Precision: 0.817329, Best Precision: 0.830735
+Recall: 0.803994, Best Recall: 0.823305
+F1: 0.804730, Best F1: 0.824075
+
+h bilstm - hdim 150 epoch 25
+Accuracy: 0.816080, Best Accuracy: 0.825648
+Precision: 0.820458, Best Precision: 0.827422
+Recall: 0.811610, Best Recall: 0.821014
+F1: 0.812194, Best F1: 0.821673
+
+
+
+
+bilstm h 100 epoch 9
+Accuracy: 0.813555, Best Accuracy: 0.819801
+Precision: 0.818926, Best Precision: 0.821874
+Recall: 0.807515, Best Recall: 0.813344
+F1: 0.809467, Best F1: 0.814325

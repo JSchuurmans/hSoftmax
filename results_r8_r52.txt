@@ -1,0 +1,47 @@
+# r8
+# bilstm - hdim 150 - epoch 25
+Accuracy: 0.957972, Best Accuracy: 0.979443
+Precision: 0.887154, Best Precision: 0.944839
+Recall: 0.853035, Best Recall: 0.937126
+F1: 0.865102, Best F1: 0.931120
+
+# h_bilstm - hdim 150 - epoch 25
+Accuracy: 0.968022, Best Accuracy: 0.971220
+Precision: 0.902127, Best Precision: 0.928135
+Recall: 0.908144, Best Recall: 0.910365
+F1: 0.901197, Best F1: 0.915046
+
+
+# bilstm - hdim 100 - epoch 15
+Accuracy: 0.973047, Best Accuracy: 0.973961
+Precision: 0.938150, Best Precision: 0.942820
+Recall: 0.927414, Best Recall: 0.927414
+F1: 0.931485, Best F1: 0.931485
+
+# h_bilstm - hdim 100 - epoch 15
+Accuracy: 0.978986, Best Accuracy: 0.978986
+Precision: 0.945921, Best Precision: 0.945921
+Recall: 0.939965, Best Recall: 0.945200
+F1: 0.1, Best F1: 0.942379
+
+
+
+
+# r52
+# bilstm - hdim 150 - 25 epochs
+Accuracy: 0.933411, Best Accuracy: 0.941589
+Precision: 0.677482, Best Precision: 0.712067
+Recall: 0.642103, Best Recall: 0.676183
+F1: 0.643763, Best F1: 0.669485
+
+# h_bilstm - hdim 150 - 25 epochs
+Accuracy: 0.928349, Best Accuracy: 0.942757
+Precision: 0.715735, Best Precision: 0.718040
+Recall: 0.620327, Best Recall: 0.668399
+F1: 0.637859, Best F1: 0.671965
+
+# h_bilstm_2 - hdim 150 - 25 epochs
+Accuracy: 0.936916, Best Accuracy: 0.940421
+Precision: 0.709552, Best Precision: 0.730066
+Recall: 0.654209, Best Recall: 0.671402
+F1: 0.660227, Best F1: 0.676031
